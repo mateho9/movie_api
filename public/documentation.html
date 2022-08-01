@@ -1,5 +1,102 @@
-myFlix Project
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width-device-width, initial-scale=1">
+    <link href="css/styles.css" type="text/css" rel="stylesheet">
+    <title>Documentation</title>
+</head>
+<body>
+    <h1 class="title-text">myFlix Documentation</h1>
 
-I'm building a server side app for a "movie" app.
-The app will provide access to information about different moives, directors and genres. 
+    <div class="description-text">
+        <p>
+          This is a server side API for myFlix. myFlix is a movie data base where users will be able to find information of different movies. 
+          Such information includes directors, genres, rating and much more. The application uses REST API, Javascript, Node.js and Express. 
+          The REST API will use standard HTTP syntax such as GET, POST, PUT and DELETE.   
+        </p>
+    </div>
 
+    <table class="information-table">
+        <tr>
+            <th>Request</th>
+            <th>URL</th>
+            <th>HTTP Method</th>
+            <th>Request body data format</th>
+            <th>Response</th>
+        </tr>
+        <tr>
+            <td>Get a list of all movies</td>
+            <td>/movies</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>A JSON object holding data about all the movies</td>
+        </tr>
+        <tr>
+            <td>Get data about a single movie</td>
+            <td>/movies/:title</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>A JSON object holding data about a specific movie</td>
+        <span class="example-text">
+                {
+                    "Title": "Star Wars: The Empire Strikes Back",
+                    "Genre": {
+                        "Name": "Sci-Fi",
+                    }
+                    "Director": {
+                        "Name": "George Lucas",
+                    }
+                }
+        </span>
+        </tr>
+        <tr>
+            <td>Add a user</td>
+            <td>/users</td>
+            <td>POST</td>
+            <td>A JSON object holding data to add a user, structured like:</td>
+            <span class="example-text">
+                {
+                    "Name": "Matt Browning",
+                    "favoriteMovies": [
+                        "Lion King",
+                        "Hot Fuzz"
+                    ] 
+                }
+            </span>
+            <td>A JSON object holding data about that the user was added, including an ID</td>
+            <span class="example-text">
+                {
+                    "id": "919",
+                    "Name": "Matt Browning",
+                    "favoriteMovies": [
+                        "Lion King",
+                        "Hot Fuzz"
+                    ] 
+                }
+            </span>
+        </tr>
+        <tr>
+            <td>Remove a user by ID</td>
+            <td>/users/:id</td>
+            <td>DELETE</td>
+            <td>None</td>
+            <td>A text message confirming that the user was succesfully deleted</td>
+        </tr>
+        <tr>
+            <td>Allow users to update their favorite movies</td>
+            <td>/movies/:id/:movieTitle</td>
+            <td>POST</td>
+            <td>None</td>
+            <td>A text message confirming the movies have been added</td>
+        </tr>
+        <tr>
+            <td>Allow users to remove movies from their favorites</td>
+            <td>/movies/:id/movieTitle</td>
+            <td>DELETE</td>
+            <td>None</td>
+            <td>A text message confirming the movies were removed</td>
+        </tr>
+    </table>
+</body>
+</html>
