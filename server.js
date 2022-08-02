@@ -1,9 +1,10 @@
 const express = require('express');
-const bodyParser = reqiure('body-parser');
+const bodyParser = require('body-parser');
 const uuid = require('uuid');
+const morgan = require('morgan');
 
 let users = require ('./users.json');
-const movies = require('./movies.json');
+let movies = require('./movies.json');
 
 const app = express();
 
