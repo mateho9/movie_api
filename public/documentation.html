@@ -37,7 +37,7 @@
             <td>/movies/:title</td>
             <td>GET</td>
             <td>None</td>
-            <td>A JSON object holding data about a specific movie</td>
+            <td>A JSON object holding data about a specific movie
         <span class="example-text">
                 {
                     "Title": "Star Wars: The Empire Strikes Back",
@@ -49,12 +49,13 @@
                     }
                 }
         </span>
+    </td>
         </tr>
         <tr>
             <td>Add a user</td>
             <td>/users</td>
             <td>POST</td>
-            <td>A JSON object holding data to add a user, structured like:</td>
+            <td>A JSON object holding data to add a user, structured like:
             <span class="example-text">
                 {
                     "Name": "Matt Browning",
@@ -64,7 +65,8 @@
                     ] 
                 }
             </span>
-            <td>A JSON object holding data about that the user was added, including an ID</td>
+        </td>
+            <td>A JSON object holding data about that the user was added, including an ID
             <span class="example-text">
                 {
                     "id": "919",
@@ -75,6 +77,7 @@
                     ] 
                 }
             </span>
+            </td>
         </tr>
         <tr>
             <td>Remove a user by ID</td>
