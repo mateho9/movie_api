@@ -3,18 +3,44 @@ const bodyParser = require('body-parser');
 const uuid = require('uuid');
 const morgan = require('morgan');
 
-let users = require ('./users.json');
-let movies = require('./movies.json');
+let users = [
+  {
+    "id":1,
+    "name":"Matt",
+    "favoriteMovies": ["Star Wars"]
+  },
+  {
+    "id":2,
+    "name":"Dena",
+    "favoriteMovies": ["The Goonies"]
+  }
+];
+let movies = [
+  {
+      "Title": "Star Wars: The Empire Strikes Back",
+      "Genre": {
+          "Name": "Sci-Fi"
+      },
+      "Director": "George Lucas"
+  },
+  {
+    "Title": "Encanto",
+    "Genre": {
+        "Name": "Animated" 
+    },
+    "Director": "Byron Howard"
+  }
+];
 
 const app = express();
 
 app.use(express.static('public'));
-app.use(bodyParser.json);
+app.use(bodyParser.json());
 app.use(morgan('common'));
 
 app.post('/users', (req, res) => {
     const newUser = req.body;
-  mop
+
     if (newUser.name) {
       newUser.id = uuid.v4();
       users.push(newUser);
@@ -91,7 +117,7 @@ app.post('/users', (req, res) => {
     res.status(200).json(movies);
   });
   
-  app.get("/movies/:title", (req, res) => {
+  app.get('/movies/:title', (req, res) => {
     const { title } = req.params;
     const movie = movies.find( movie => movie.Title === title );
   
