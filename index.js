@@ -1,10 +1,9 @@
 const express = require ('express'),
 morgan = require('morgan'),
-app = express();
+app = express(),
 bodyParser = require('body-parser'),
 uuid = require('uuid');
 
-const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 const Movies = Models.Movie;
@@ -12,7 +11,7 @@ const Users = Models.User;
 const Genres = Models.Genre;
 const Directors = Models.Director;
 
-mongoose.connect('mongod://localhost:27017/myFlixDB', { 
+mongoose.connect('mongodb://localhost:27017/myFlixDB', { 
     useNewUrlParser: true, 
     useUnifiedTopology: true 
 });
@@ -80,7 +79,7 @@ app.put('/users/:Username', (req, res) => {
         Username: req.body.Username,
         Password: req.body.Password,
         Email: req.body.Email,
-        Birthday: req.body.Birthday
+        Birthday: req.body.Birthday,
       }
     },
     { new: true }, 
@@ -122,6 +121,11 @@ app.put('/users/:Username', (req, res) => {
         console.error(err);
         res.status(500).send('Error: ' + err);
     });
+  });
+
+  app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
   });
 
 app.listen(8080, () => {
