@@ -5,7 +5,7 @@ bodyParser = require('body-parser'),
 uuid = require('uuid');
 
 const mongoose = require('mongoose');
-const Models = require('./models.js');
+const Models = require('./models');
 const Movies = Models.Movie;
 const Users = Models.User;
 const Genres = Models.Genre;
@@ -18,7 +18,7 @@ mongoose.connect('mongodb://localhost:27017/myFlixDB', {
 
 app.use(morgan('common'));
 
-app.use('/documentation,html', express.static('public'));
+app.use('/documentation.html', express.static('public'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -34,24 +34,33 @@ app.get('/users', (req, res) => {
         });
 });
 
+app.get('/', (req, res) => {
+  res.send('Welcome to myFlix');
+});
+
+app.get('/documentation', (req, res) => {                  
+  res.sendFile('./public/documentation.html', { root: __dirname });
+});
+
 app.post('/users', (req, res) => {
     Users.findOne({ Username: req.body.Username })
         .then((user) => {
             if (user) {
-                return res.status(400).send(req.body.Username + 'already exists');
+                return res.status(400).send(req.body.Username + ' already exists');
             } else {
-                Users
-                    .create({
+                Users.create({
                         Username: req.body.Username,
                         Password: req.body.Password,
                         Email: req.body.Email,
                         Birthday: req.body.Birthday
                     })
-                    .then((user) =>{req.status(201).json(user) })
+                    .then((user) => {
+                      req.status(201).json(user) 
+                    })
                     .catch((error) => {
                         console.error(error);
                         res.status(500).send('Error: ' + error);
-                    })
+                    });
             }
         })
         .catch((error) => {
@@ -60,7 +69,49 @@ app.post('/users', (req, res) => {
         });
 });
 
+app.get('/movies', (req, res) => {
+  Movies.find()
+  .then((movies) => {
+    res.status(201),json(movies);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error:' + err);
+  });
+});
 
+app.get('/movies/:Title', (req, res) => {
+  Movies.findOne({ Title: req.params.Title })
+  .then((movie) => {
+    res.json(movie);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error:' + err);
+  });
+});
+
+app.get('/genre/:Name', (req, res) => {
+  Genre.findOne({ Genre: req.params.Name })
+  .then((genre) => {
+    res.json(genre);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error:' + err);
+  });
+});
+
+app.get('/directors/:Name', (req, res) => {
+  Directors.findOne({ Director: req.params.Name })
+  .then((director) => {
+    res.json(director);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error:' + err);
+  });
+});
 
 app.get('/users/:Username', (req, res) => {
     Users.findOne({ Username: req.params.Username })
@@ -80,7 +131,7 @@ app.put('/users/:Username', (req, res) => {
         Password: req.body.Password,
         Email: req.body.Email,
         Birthday: req.body.Birthday,
-      }
+      },
     },
     { new: true }, 
     (err, updatedUser) => {
