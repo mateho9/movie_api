@@ -55,7 +55,7 @@ app.post('/users', (req, res) => {
                         Birthday: req.body.Birthday
                     })
                     .then((user) => {
-                      req.status(201).json(user) 
+                      res.status(201).json(user) 
                     })
                     .catch((error) => {
                         console.error(error);
@@ -72,7 +72,7 @@ app.post('/users', (req, res) => {
 app.get('/movies', (req, res) => {
   Movies.find()
   .then((movies) => {
-    res.status(201),json(movies);
+    res.status(201).json(movies);
   })
   .catch((err) => {
     console.error(err);
