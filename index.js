@@ -24,8 +24,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.get('/users', (req, res) => {
-    Users.find()
-        .then((users) => {
+    Users.find().then((users) => {
             res.status(201).json(users);
         })
         .catch((err) => {
@@ -70,8 +69,7 @@ app.post('/users', (req, res) => {
 });
 
 app.get('/movies', (req, res) => {
-  Movies.find()
-  .then((movies) => {
+  Movies.find().then((movies) => {
     res.status(201).json(movies);
   })
   .catch((err) => {
@@ -81,8 +79,7 @@ app.get('/movies', (req, res) => {
 });
 
 app.get('/movies/:Title', (req, res) => {
-  Movies.findOne({ Title: req.params.Title })
-  .then((movie) => {
+  Movies.findOne({ Title: req.params.Title }).then((movie) => {
     res.json(movie);
   })
   .catch((err) => {
@@ -92,8 +89,7 @@ app.get('/movies/:Title', (req, res) => {
 });
 
 app.get('/genre/:Name', (req, res) => {
-  Genre.findOne({ Genre: req.params.Name })
-  .then((genre) => {
+  Genre.findOne({ Genre: req.params.Name }).then((genre) => {
     res.json(genre);
   })
   .catch((err) => {
@@ -103,8 +99,7 @@ app.get('/genre/:Name', (req, res) => {
 });
 
 app.get('/directors/:Name', (req, res) => {
-  Directors.findOne({ Director: req.params.Name })
-  .then((director) => {
+  Directors.findOne({ Director: req.params.Name }).then((director) => {
     res.json(director);
   })
   .catch((err) => {
@@ -114,8 +109,7 @@ app.get('/directors/:Name', (req, res) => {
 });
 
 app.get('/users/:Username', (req, res) => {
-    Users.findOne({ Username: req.params.Username })
-        .then((user) => {
+    Users.findOne({ Username: req.params.Username }).then((user) => {
             res.json(user);
         })
         .catch((err) => {
