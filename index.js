@@ -79,7 +79,8 @@ app.get('/movies', (req, res) => {
 });
 
 app.get('/movies/:Title', (req, res) => {
-  Movies.findOne({ Title: req.params.Title }).then((movie) => {
+  Movies.findOne({ Title: req.params.Title })
+  .then((movie) => {
     res.json(movie);
   })
   .catch((err) => {
@@ -90,7 +91,7 @@ app.get('/movies/:Title', (req, res) => {
 
 app.get('/genre/:Name', (req, res) => {
   Genre.findOne({ Genre: req.params.Name }).then((genre) => {
-    res.json(genre);
+    res.json(genre.Description);
   })
   .catch((err) => {
     console.error(err);
@@ -99,7 +100,8 @@ app.get('/genre/:Name', (req, res) => {
 });
 
 app.get('/directors/:Name', (req, res) => {
-  Directors.findOne({ Director: req.params.Name }).then((director) => {
+  Directors.findOne({ Director: req.params.Name })
+  .then((director) => {
     res.json(director);
   })
   .catch((err) => {
@@ -109,7 +111,8 @@ app.get('/directors/:Name', (req, res) => {
 });
 
 app.get('/users/:Username', (req, res) => {
-    Users.findOne({ Username: req.params.Username }).then((user) => {
+    Users.findOne({ Username: req.params.Username })
+    .then((user) => {
             res.json(user);
         })
         .catch((err) => {
