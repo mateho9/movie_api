@@ -10,6 +10,7 @@ const Movies = Models.Movie;
 const Users = Models.User;
 const Genres = Models.Genre;
 const Directors = Models.Director;
+const cors = require('cors');
 
 mongoose.connect('mongodb://localhost:27017/myFlixDB', { 
     useNewUrlParser: true, 
@@ -18,12 +19,27 @@ mongoose.connect('mongodb://localhost:27017/myFlixDB', {
 
 app.use(morgan('common'));
 
+app.use(cors());
+
 app.use('/documentation.html', express.static('public'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 let auth = require('./auth')(app);
+
+let allowedOrigins = ['http://localhost:8080'];
+
+/*app.use(cors({
+  origin: (origin, callback) => {
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin) === -1){ //If a specfic origin isnt found on the list of allowed origins
+    let message = 'The CORS policy for this application doesnt allow access from origin' + origin;
+  return callback(new Error(message ), false);
+    }
+    return callback(null, true);
+  }
+}));*/
 
 const passport = require('passport');
 require('./passport');
