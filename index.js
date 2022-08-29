@@ -11,6 +11,7 @@ const Users = Models.User;
 const Genres = Models.Genre;
 const Directors = Models.Director;
 const cors = require('cors');
+const {check, calidationResult } = require('express-validator');
 
 mongoose.connect('mongodb://localhost:27017/myFlixDB', { 
     useNewUrlParser: true, 
@@ -62,7 +63,16 @@ app.get('/documentation', (req, res) => {
   res.sendFile('./public/documentation.html', { root: __dirname });
 });
 
-app.post('/users', (req, res) => {
+app.post('/users', [check('Username, Username is required').isLength({min: 5}),
+  check('Username', 'Username contains non alpanumeric characters - not allowed').isAlphanumeric(),
+  check('Password', 'Password is required').not().isEmpty(),
+  check('Email', 'Email does not appear valid').isEmail()], (req, res) => {
+    // check the validation for errors
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+    let hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOne({ Username: req.body.Username })
         .then((user) => {
             if (user) {
@@ -70,7 +80,7 @@ app.post('/users', (req, res) => {
             } else {
                 Users.create({
                         Username: req.body.Username,
-                        Password: req.body.Password,
+                        Password: hashedPassword,
                         Email: req.body.Email,
                         Birthday: req.body.Birthday
                     })
@@ -110,9 +120,19 @@ app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), (req
   });
 });
 
+/*app.get('/genres', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Genres.find().then((genres) => {
+    res.status(201).json(genres);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error:' + err);
+  });
+});*/  //Revist code
+
 app.get('/genres/:Name', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Genres.findOne({ Genre: req.params.Name }).then((genre) => {
-    res.json(genre.Description);
+  Genres.findOne({ Genres: req.params.Name }).then((genres) => {
+    res.json(genres.Description);
   })
   .catch((err) => {
     console.error(err);
@@ -121,9 +141,9 @@ app.get('/genres/:Name', passport.authenticate('jwt', { session: false }), (req,
 });
 
 app.get('/directors/:Name', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Directors.findOne({ Director: req.params.Name })
-  .then((director) => {
-    res.json(director);
+  Directors.findOne({ Directors: req.params.Name })
+  .then((Directors) => {
+    res.json(Directors);
   })
   .catch((err) => {
     console.error(err);
