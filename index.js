@@ -76,11 +76,11 @@ app.post('/users',
   check('Email', 'Email does not appear valid').isEmail()
 ], (req, res) => {
     // check the validation for errors
-    const errors = validationResult(req);
+    let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-    const hashedPassword = Users.hashPassword(req.body.Password);
+    let hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOne({ Username: req.body.Username })
         .then((user) => {
             if (user) {
