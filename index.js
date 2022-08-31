@@ -60,8 +60,8 @@ app.get('/users', (req, res) => {
         });
 });
 
-app.get('./index.html', (req, res) => {
-  res.send('Welcome to myFlix');
+app.get('/', (req, res) => {
+  res.sendFile('./index.html'), { root: __dirname}
 });
 
 app.get('/documentation', (req, res) => {                  
