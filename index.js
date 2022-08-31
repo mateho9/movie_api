@@ -68,16 +68,19 @@ app.get('/documentation', (req, res) => {
   res.sendFile('./public/documentation.html', { root: __dirname });
 });
 
-app.post('/users', [check('Username, Username is required').isLength({min: 5}),
+app.post('/users', 
+[
+  check('Username, Username is required').isLength({min: 5}),
   check('Username', 'Username contains non alpanumeric characters - not allowed').isAlphanumeric(),
   check('Password', 'Password is required').not().isEmpty(),
-  check('Email', 'Email does not appear valid').isEmail()], (req, res) => {
+  check('Email', 'Email does not appear valid').isEmail()
+], (req, res) => {
     // check the validation for errors
-    let errors = validationResult(req);
+    const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-    let hashedPassword = Users.hashPassword(req.body.Password);
+    const hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOne({ Username: req.body.Username })
         .then((user) => {
             if (user) {
