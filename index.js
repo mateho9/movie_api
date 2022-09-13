@@ -120,6 +120,8 @@ app.get("/movies", function (req, res) {
     });
 });
 
+//just remove '/* */' comments markers and delete ^ above code
+
 /*app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.find().then((movies) => {
     res.status(201).json(movies);
